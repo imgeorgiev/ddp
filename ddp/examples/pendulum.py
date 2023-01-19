@@ -2,7 +2,7 @@ import sympy as sym
 import numpy as np
 import matplotlib.pyplot as plt
 
-from ddp.ddp import DDPOptimizer
+from ddp import DDPOptimizer
 
 # dynamics parameters
 G = 9.80665
