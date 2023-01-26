@@ -27,6 +27,8 @@ pip install pip install git+git://github.com/imgeorgiev/dmc2gymnasium.git
 ## Basic Usage
 
 ```python
+from ddp import DDPOptimizer
+
 # dynamics
 def f(x, u):
     x[0] += x[1]
