@@ -1,8 +1,17 @@
 import sympy as sym
 import numpy as np
-import matplotlib.pyplot as plt
+from time import time
 
 from ddp import DDPOptimizer
+
+with_plots = False
+try:
+    import matplotlib.pyplot as plt
+
+    with_plots = True
+except ImportError:
+    print("ERROR: matplotlib not found. Skipping plots")
+
 
 # dynamics parameters
 mp = 0.1
@@ -66,31 +75,44 @@ def h(x, x_goal):
 
 
 # trajectory parameters
-N = 100
-Nx = 5
-Nu = 1
+N = 100  # trajectory points
+Nx = 5  # state dimension
+Nu = 1  # control dimesions
+
+# starting state
 x0 = np.array([0.0, 0.0, np.sin(np.pi), np.cos(np.pi), 0.0])
+
+# goal state we want to reach
 x_goal = np.array([0.0, 0.0, np.sin(0.0), np.cos(0.0), 0.0])
 
+print("Starting state", x0)
+print("Goal state", x_goal)
+
 # Create and run optimizer with random intialization
+print("Starting optimization")
+start_time = time()
 ddp = DDPOptimizer(Nx, Nu, f, g, h)
 X, U, X_hist, U_hist, J_hist = ddp.optimize(x0, x_goal, N=N, full_output=True)
+print("Finished optimization in {:.2f}s".format(time() - start_time))
 
 # plot results
-fig, ax = plt.subplots(3, 1, figsize=(4, 8))
-tt = np.linspace(0, dt * N, N)
-theta_sol = np.unwrap(np.arctan2(X[:, 2], X[:, 3]))
-theta_dot_sol = X[:, 4]
+if with_plots:
+    print("Plotting results")
 
-ax[0].plot(theta_sol, theta_dot_sol)
-ax[0].set_xlabel(r"$\theta (rad)$")
-ax[0].set_ylabel(r"$\dot{\theta} (rad/s)$")
-ax[0].set_title("Phase Plot")
-ax[1].set_title("Control")
-ax[1].plot(tt, np.tanh(U))
-ax[1].set_xlabel("Time (s)")
-ax[2].plot(J_hist)
-ax[2].set_title("Trajectory cost")
-ax[2].set_xlabel("Iteration")
-plt.tight_layout()
-plt.savefig("ddp_cartpole.pdf")
+    fig, ax = plt.subplots(3, 1, figsize=(4, 8))
+    tt = np.linspace(0, dt * N, N)
+    theta_sol = np.unwrap(np.arctan2(X[:, 2], X[:, 3]))
+    theta_dot_sol = X[:, 4]
+
+    ax[0].plot(theta_sol, theta_dot_sol)
+    ax[0].set_xlabel(r"$\theta (rad)$")
+    ax[0].set_ylabel(r"$\dot{\theta} (rad/s)$")
+    ax[0].set_title("Phase Plot")
+    ax[1].set_title("Control")
+    ax[1].plot(tt, np.tanh(U))
+    ax[1].set_xlabel("Time (s)")
+    ax[2].plot(J_hist)
+    ax[2].set_title("Trajectory cost")
+    ax[2].set_xlabel("Iteration")
+    plt.tight_layout()
+    plt.savefig("ddp_cartpole.pdf")
