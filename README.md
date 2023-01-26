@@ -42,7 +42,7 @@ def h(x, u, x_goal):
     error = x-x_goal
     return error.T @ error
 
-N = 10 # trajectory lenght
+N = 10 # trajectory length
 x_start = np.array([0.0, 0.0])
 x_goal = np.array([0.0, 1.0])
 
