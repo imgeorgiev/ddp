@@ -115,4 +115,4 @@ if with_plots:
     ax[2].set_title("Trajectory cost")
     ax[2].set_xlabel("Iteration")
     plt.tight_layout()
-    plt.savefig("ddp_cartpole.pdf")
+    plt.savefig("ddp_cartpole.png")
