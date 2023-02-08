@@ -4,7 +4,7 @@ Differential Dynamic Programming (DDP), first proposed by [David Maybe in 1966](
 
 Although simple in principle, it is a surprisingly powerful method which was more recently re-discovered and simplified into [iLQR](https://homes.cs.washington.edu/~todorov/papers/TassaIROS12.pdf) and showcased in [complex humanoid behaviour](https://youtu.be/anIsw2-Lbco).
 
-This repository contains a mostly educational implementation of DDP to go along with my [blog post TODO]() on it. The implementation is heaviy based on the amazing sympy package which allows for easy computation of symbolic derivatives. It is by no means fast, but very easy to use, read and understand!
+This repository contains a mostly educational implementation of DDP to go along with my [blog post](http://www.imgeorgiev.com/2023-02-01-ddp/) on it. The implementation is heaviy based on the amazing sympy package which allows for easy computation of symbolic derivatives. It is by no means fast, but very easy to use, read and understand!
 
 
 ### Visualiztion of DDP iterations on a inverted pendulum
